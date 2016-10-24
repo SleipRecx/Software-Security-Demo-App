@@ -71,7 +71,7 @@ class PatentRepository
     {
        $stmt = $this->pdo->prepare("DELETE FROM patent WHERE patentid=:id");
        $stmt->bindParam(':id', $patentId);
-       $stmt->execute();
+       return $stmt->execute();
     }
 
 
