@@ -23,7 +23,7 @@ class UsersController extends Controller
             $this->app->flash("info", "You must be logged in to do that");
             $this->app->redirect("/login");
 
-        } else if ($this->auth->isAdmin() || $user->getUsername() == $this->auth->getUsername()) {
+        } else if ($this->auth->isAdmin() || $user->getUsername() === $this->auth->getUsername()) {
 
           $this->render('users/showExtended.twig', [
                   'user' => $user,
@@ -117,15 +117,17 @@ class UsersController extends Controller
 
     public function destroy($username)
     {
-        $this->makeSureUserIsAdmin();
-        if ($this->userRepository->deleteByUsername($username) === 1) {
+      $user = $this->userRepository->findByUser($username);
+
+        if ($this->auth->isAdmin() && $user->getUsername() !== $this->auth->getUsername()) {
+            $this->userRepository->deleteByUsername($username) === 1;
             $this->app->flash('info', "Sucessfully deleted '$username'");
             $this->app->redirect('/admin');
             return;
         }
 
         $this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
-        $this->app->redirect('/admin');
+        $this->app->redirect('/');
     }
 
     public function makeSureUserIsAuthenticated()
