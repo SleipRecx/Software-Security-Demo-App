@@ -7,19 +7,19 @@ use tdt4237\webapp\models\User;
 class RegistrationFormValidation
 {
     const MIN_USER_LENGTH = 3;
-    
+
     private $validationErrors = [];
-    
+
     public function __construct($username, $password, $first_name, $last_name, $phone, $company)
     {
         return $this->validate($username, $password, $first_name, $last_name, $phone, $company);
     }
-    
+
     public function isGoodToGo()
     {
         return empty($this->validationErrors);
     }
-    
+
     public function getValidationErrors()
     {
         return $this->validationErrors;
@@ -29,6 +29,10 @@ class RegistrationFormValidation
     {
         if (empty($password)) {
             $this->validationErrors[] = 'Password cannot be empty';
+        }
+
+        if (strlen($password < "8")){
+          $this->validationErrors[] = "Password must be atleast 8 characters";
         }
 
         if(empty($first_name)) {
