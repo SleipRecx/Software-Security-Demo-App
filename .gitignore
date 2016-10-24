@@ -1,6 +1,8 @@
 # Folders
 vendor/
 
+*.idea
+
 # Files
 app.db
 composer.phar
