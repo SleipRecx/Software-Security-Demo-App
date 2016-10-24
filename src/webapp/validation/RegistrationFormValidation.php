@@ -31,8 +31,14 @@ class RegistrationFormValidation
             $this->validationErrors[] = 'Password cannot be empty';
         }
 
-        if (strlen($password < "8")){
+        if (strlen($password) < 8 ){
+          echo strlen($password);
           $this->validationErrors[] = "Password must be atleast 8 characters";
+        }
+
+        if (!preg_match('/[A-Z]+[a-z]+[0-9]+/', $password))
+        {
+          $this->validationErrors[] = "Password must contain numbers, and capital letters";
         }
 
         if(empty($first_name)) {
@@ -47,7 +53,7 @@ class RegistrationFormValidation
             $this->validationErrors[] = "Please write in your post code";
         }
 
-        if (strlen($phone) != "8") {
+        if (strlen($phone) != 8) {
             $this->validationErrors[] = "Phone number must be exactly eight digits";
         }
 
