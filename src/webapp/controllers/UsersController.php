@@ -121,6 +121,7 @@ class UsersController extends Controller
 
     public function destroy($username)
     {
+        $this->makeSureUserIsAdmin();
         if ($this->userRepository->deleteByUsername($username) === 1) {
             $this->app->flash('info', "Sucessfully deleted '$username'");
             $this->app->redirect('/admin');
@@ -136,6 +137,14 @@ class UsersController extends Controller
         if ($this->auth->guest()) {
             $this->app->flash('info', 'You must be logged in to edit your profile.');
             $this->app->redirect('/login');
+        }
+    }
+
+    public function makeSureUserIsAdmin()
+    {
+        if ($this->auth->isAdmin()) {
+            $this->app->flash('info', "You must be administrator to view the admin page.");
+            $this->app->redirect('/');
         }
     }
 }
