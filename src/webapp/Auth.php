@@ -55,7 +55,13 @@ class Auth
      */
     public function guest()
     {
+      try{
         return $this->check() === false;
+      }
+
+      catch(Exception $e){
+
+      }
     }
 
     /**
@@ -75,16 +81,20 @@ class Auth
      */
     public function isAdmin()
     {
-        if ($this->check()) {
-            return $_SESSION['isadmin'] === 'yes';
-        }
+      if ($this->guest()){
+        return;
+      }
+
+      else if ($this->check()) {
+          return $_SESSION['isadmin'] === 'yes';
+      }
 
         throw new Exception('Not logged in but called Auth::isAdmin() anyway');
     }
 
     public function logout()
     {
-        session_destroy();    
+        session_destroy();
     }
 
 }
