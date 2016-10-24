@@ -35,9 +35,9 @@ class PatentRepository
 
     public function find($patentId)
     {
-        $sql  = "SELECT * FROM patent WHERE patentId = $patentId";
-        $result = $this->pdo->query($sql);
-        $row = $result->fetch();
+       $stmt = $this->pdo->prepare("SELECT * FROM patent WHERE patentId = :value"); $stmt->bindParam(':value', $patentId);
+       $stmt->execute();
+       $row = $stmt->fetch();
 
         if($row === false) {
             return false;
@@ -69,8 +69,9 @@ class PatentRepository
 
     public function deleteByPatentid($patentId)
     {
-        return $this->pdo->exec(
-            sprintf("DELETE FROM patent WHERE patentid='%s';", $patentId));
+       $stmt = $this->pdo->prepare("DELETE FROM patent WHERE patentid=:id");
+       $stmt->bindParam(':id', $patentId);
+       $stmt->execute();
     }
 
 
@@ -83,11 +84,18 @@ class PatentRepository
         $file           = $patent->getFile();
 
         if ($patent->getPatentId() === null) {
-            $query = "INSERT INTO patent (company, date, title, description, file) "
-                . "VALUES ('$company', '$date', '$title', '$description', '$file')";
+
+           $stmt = $this->pdo->prepare("INSERT INTO patent (company, date, title, description, file) VALUES (:company, :date, :title, :description, :file)");
+           $stmt->bindParam(':company', $company);
+           $stmt->bindParam(':date', $date);
+           $stmt->bindParam(':title', $title);
+           $stmt->bindParam(':description', $description);
+           $stmt->bindParam(':file', $file);
+
+           $stmt->execute();
+
         }
 
-        $this->pdo->exec($query);
         return $this->pdo->lastInsertId();
     }
 }
