@@ -53,10 +53,7 @@ class SessionsController extends Controller
     public function destroy()
     {
         $this->auth->logout();
-<<<<<<< HEAD
-        $this->app->redirect('http://www.ntnu.no/');
-=======
         $this->app->redirect('/');
->>>>>>> 376cdc3a62802b51e4c47ad3cdd44f4d70f6ca9a
+
     }
 }
