@@ -10,12 +10,14 @@ use tdt4237\webapp\models\User;
 
 class UserRepository
 {
-    const INSERT_QUERY   = "INSERT INTO users(user, pass, first_name, last_name, phone, company, isadmin) VALUES('%s', '%s', '%s' , '%s' , '%s', '%s', '%s')";
-    const UPDATE_QUERY   = "UPDATE users SET email='%s', first_name='%s', last_name='%s', isadmin='%s', phone ='%s' , company ='%s' WHERE id='%s'";
-    const FIND_BY_NAME   = "SELECT * FROM users WHERE user='%s'";
-    const DELETE_BY_NAME = "DELETE FROM users WHERE user='%s'";
-    const SELECT_ALL     = "SELECT * FROM users";
-    const FIND_FULL_NAME   = "SELECT * FROM users WHERE user='%s'";
+
+
+   const INSERT_QUERY   = "INSERT INTO users(user, pass, first_name, last_name, phone, company, isadmin) VALUES(:user, :pass, :first_name , :last_name , :phone, :company, :admin)";
+   const UPDATE_QUERY  = "UPDATE users SET email=:email, first_name=:first_name, last_name=:last_name, isadmin=:admin, phone =:phone , company =:company WHERE id=:id";
+   const FIND_BY_NAME = "SELECT * FROM users WHERE user=:user";
+   const DELETE_BY_NAME = "DELETE FROM users WHERE user=:user";
+   const SELECT_ALL = "SELECT * FROM users";
+   const FIND_FULL_NAME  = "SELECT * FROM users WHERE user=:user";
 
     /**
      * @var PDO
@@ -50,20 +52,24 @@ class UserRepository
 
     public function getNameByUsername($username)
     {
-        $query = sprintf(self::FIND_FULL_NAME, $username);
+        $stmt = $this->pdo->prepare(self::FIND_FULL_NAME);
+        $stmt->bindParam(':user', $username);
 
-        $result = $this->pdo->query($query, PDO::FETCH_ASSOC);
-        $row = $result->fetch();
+        $stmt->execute();
+        $row = $stmt->fetch();
+
         $name = $row['first_name'] + " " + $row['last_name'];
         return $name;
     }
 
     public function findByUser($username)
     {
-        $query  = sprintf(self::FIND_BY_NAME, $username);
-        $result = $this->pdo->query($query, PDO::FETCH_ASSOC);
-        $row = $result->fetch();
-        
+         $stmt = $this->pdo->prepare(self::FIND_BY_NAME);
+         $stmt->bindParam(':user', $username);
+
+         $stmt->execute();
+         $row = $stmt->fetch();
+
         if ($row === false) {
             return false;
         }
@@ -73,15 +79,15 @@ class UserRepository
 
     public function deleteByUsername($username)
     {
-        return $this->pdo->exec(
-            sprintf(self::DELETE_BY_NAME, $username)
-        );
+      $stmt = $this->pdo->prepare(self::DELETE_BY_NAME);
+      $stmt->bindParam(':user', $username);
+      return $stmt->execute();
     }
 
     public function all()
     {
         $rows = $this->pdo->query(self::SELECT_ALL);
-        
+
         if ($rows === false) {
             return [];
             throw new \Exception('PDO error in all()');
@@ -101,20 +107,46 @@ class UserRepository
 
     public function saveNewUser(User $user)
     {
-        $query = sprintf(
-            self::INSERT_QUERY, $user->getUsername(), $user->getHash(), $user->getFirstName(), $user->getLastName(), $user->getPhone(), $user->getCompany(), $user->isAdmin()
-        );
+      $stmt = $this->pdo->prepare(self::INSERT_QUERY);
 
-        return $this->pdo->exec($query);
+      $username = $user->getUsername();
+      $pass = $user->getHash();
+      $first_name = $user->getFirstName();
+      $last_name = $user->getLastName();
+      $phone= $user->getPhone();
+      $company = $user->getCompany();
+      $admin = $user->isAdmin();
+
+      $stmt->bindParam(':user', $username);
+      $stmt->bindParam(':pass', $pass);
+      $stmt->bindParam(':first_name' ,$first_name);
+      $stmt->bindParam(':last_name',$last_name);
+      $stmt->bindParam(':phone', $phone);
+      $stmt->bindParam(':company', $company);
+      $stmt->bindParam(':admin', $admin);
+      return $stmt->execute();
     }
 
     public function saveExistingUser(User $user)
     {
-        $query = sprintf(
-            self::UPDATE_QUERY, $user->getEmail(), $user->getFirstName(), $user->getLastName(), $user->isAdmin(), $user->getPhone(), $user->getCompany(), $user->getUserId()
-        );
+      $stmt = $this->pdo->prepare(self::UPDATE_QUERY);
 
-        return $this->pdo->exec($query);
+      $email=  $user->getEmail();
+      $first_name = $user->getFirstName();
+      $last_name = $user->getLastName();
+      $phone= $user->getPhone();
+      $company = $user->getCompany();
+      $admin = $user->isAdmin();
+      $id = $user->getUserId();
+
+      $stmt->bindParam(':email', $email);
+      $stmt->bindParam(':id', $id);
+      $stmt->bindParam(':first_name' ,$first_name);
+      $stmt->bindParam(':last_name',$last_name);
+      $stmt->bindParam(':phone', $phone);
+      $stmt->bindParam(':company', $company);
+      $stmt->bindParam(':admin', $admin);
+      return $stmt->execute();
     }
 
 }
