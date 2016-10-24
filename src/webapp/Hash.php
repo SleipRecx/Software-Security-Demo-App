@@ -9,7 +9,7 @@ class Hash{
   // blowfish
     private static $algo = '$2a';
     // cost parameter
-    private static $cost = '$14';
+    private static $cost = '$1';
 
     public function __construct(){}
 

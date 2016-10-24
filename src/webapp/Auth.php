@@ -41,7 +41,13 @@ class Auth
      */
     public function check()
     {
-        return isset($_SESSION['user']);
+        try{
+          return isset($_SESSION['user']);
+        }
+
+        catch(Exception $e){
+          return false;
+        }
     }
 
     public function getUsername() {
@@ -55,13 +61,7 @@ class Auth
      */
     public function guest()
     {
-      try{
         return $this->check() === false;
-      }
-
-      catch(Exception $e){
-
-      }
     }
 
     /**
@@ -73,7 +73,7 @@ class Auth
             return $this->userRepository->findByUser($_SESSION['user']);
         }
 
-        throw new Exception('Not logged in but called Auth::user() anyway');
+        return;
     }
 
     /**

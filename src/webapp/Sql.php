@@ -48,7 +48,7 @@ class Sql
         * TODO delete following line
         */
 
-        $q4 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('markus', '$hash4', 0, 'Bjarni', 'Torgmund', '32187625', 'Patentsy AS', 'markus@patentsy.com')";
+        $q4 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('markus', '$hash4', 1, 'Bjarni', 'Torgmund', '32187625', 'Patentsy AS', 'markus@patentsy.com')";
 
 
         self::$pdo->exec($q1);
