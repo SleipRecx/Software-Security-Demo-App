@@ -48,15 +48,20 @@ class UsersController extends Controller
         $this->app->redirect('/');
     }
 
+    //xss mitigation functions
+  public function xssafe($data,$encoding='UTF-8'){
+   return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
+ }
+
     public function create()
     {
         $request  = $this->app->request;
-        $username = $request->post('user');
-        $password = $request->post('pass');
-        $firstName = $request->post('first_name');
-        $lastName = $request->post('last_name');
-        $phone = $request->post('phone');
-        $company = $request->post('company');
+        $username = $this->xssafe($request->post('user'));
+        $password = $this->xssafe($request->post('pass'));
+        $firstName = $this->xssafe($request->post('first_name'));
+        $lastName = $this->xssafe($request->post('last_name'));
+        $phone = $this->xssafe($request->post('phone'));
+        $company = $this->xssafe($request->post('company'));
 
 
         $validation = new RegistrationFormValidation($username, $password, $firstName, $lastName, $phone, $company);
@@ -90,12 +95,13 @@ class UsersController extends Controller
         $this->makeSureUserIsAuthenticated();
         $user = $this->auth->user();
 
-        $request    = $this->app->request;
-        $email      = $request->post('email');
-        $firstName  = $request->post('first_name');
-        $lastName  = $request->post('last_name');
-        $phone    = $request->post('phone');
-        $company   = $request->post('company');
+        $request  = $this->app->request;
+        $email  = $this->xssafe($request->post('email'));
+        $firstName = $this->xssafe($request->post('first_name'));
+        $lastName = $this->xssafe($request->post('last_name'));
+        $phone = $this->xssafe($request->post('phone'));
+        $company = $this->xssafe($request->post('company'));
+
 
         $validation = new EditUserFormValidation($email, $phone, $company);
 
