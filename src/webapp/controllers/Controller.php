@@ -28,6 +28,8 @@ class Controller
     protected function render($template, $variables = [])
     {
         if ($this->auth->check()) {
+          session_regenerate_id(true);
+          $session_id = session_id();
             $variables['isLoggedIn'] = true;
             $variables['isAdmin'] = $this->auth->isAdmin();
             $variables['loggedInUsername'] = $_SESSION['user'];
