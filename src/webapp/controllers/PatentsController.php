@@ -18,6 +18,7 @@ class PatentsController extends Controller
 
     public function index()
     {
+
         $patent = $this->patentRepository->all();
         if($patent != null)
         {
@@ -29,6 +30,7 @@ class PatentsController extends Controller
 
     public function show($patentId)
     {
+
         $patent = $this->patentRepository->find($patentId);
         $username = $_SESSION['user'];
         $user = $this->userRepository->findByUser($username);
@@ -63,6 +65,11 @@ class PatentsController extends Controller
 
     }
 
+    //xss mitigation functions
+  public static function xssafe($data,$encoding='UTF-8'){
+   return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
+ }
+
     public function create()
     {
         if ($this->auth->guest()) {
@@ -70,10 +77,11 @@ class PatentsController extends Controller
             $this->app->redirect("/login");
         } else {
             $request     = $this->app->request;
-            $title       = $request->post('title');
-            $description = $request->post('description');
-            $company     = $request->post('company');
+            $title       = $this->xssafe($request->post('title'));
+            $description = $this->xssafe($request->post('description'));
+            $company     = $this->xssafe($request->post('company'));
             $date        = date("dmY");
+            //TODO make this upload safe
             $file = $this -> startUpload();
 
             $validation = new PatentValidation($title, $description);
