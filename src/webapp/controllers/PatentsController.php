@@ -79,6 +79,8 @@ class PatentsController extends Controller
             //TODO make this upload safe
             $file = $this -> startUpload();
 
+
+
             $validation = new PatentValidation($title, $description);
             if ($validation->isGoodToGo()) {
                 $patent = new Patent($company, $title, $description, $date, $file);
@@ -100,11 +102,29 @@ class PatentsController extends Controller
     {
         if(isset($_POST['submit']))
         {
-            $target_dir =  getcwd()."/web/uploads/";
-            $targetFile = $target_dir . basename($_FILES['uploaded']['name']);
-            if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $targetFile))
-            {
-                return $targetFile;
+
+            //Check if the file size is under 10 MB (filesize in bytes)
+            if($_FILES['uploaded']['size'] > 10000000) {
+              throw new RuntimeException("File too big!");
+            }
+
+            //check mime type
+            $allowed =  array('gif','png' ,'jpg');
+            $filename = $_FILES['uploaded']['name'];
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+            if(!in_array($ext,$allowed) ) {
+              $this->app->flash('info', "Wrong filetype. (Only gif, png and jpg allowed).");
+              $this->app->redirect('/patents/new');
+            }
+            else {
+
+              $target_dir =  getcwd()."/web/uploads/";
+              $targetFile = $target_dir . basename($_FILES['uploaded']['name']);
+
+              if(move_uploaded_file($_FILES['uploaded']['tmp_name'], $targetFile))
+              {
+                  return $targetFile;
+              }
             }
         }
     }
