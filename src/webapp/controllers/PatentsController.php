@@ -35,7 +35,7 @@ class PatentsController extends Controller
         $username = $_SESSION['user'];
         $user = $this->userRepository->findByUser($username);
         $request = $this->app->request;
-        $message = $request->get('msg');
+        $message = $this->xssafe($request->get('msg'));
         $variables = [];
 
         if($message) {
@@ -64,11 +64,6 @@ class PatentsController extends Controller
         }
 
     }
-
-    //xss mitigation functions
-  public function xssafe($data,$encoding='UTF-8'){
-   return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
- }
 
     public function create()
     {
