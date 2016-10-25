@@ -27,8 +27,8 @@ class SessionsController extends Controller
     public function create()
     {
         $request = $this->app->request;
-        $user    = $request->post('user');
-        $pass    = $request->post('pass');
+        $user    = $this->xssafe($request->post('user'));
+        $pass    = $this->xssafe($request->post('pass'));
 
         if ($this->auth->checkCredentials($user, $pass)) {
             $_SESSION['user'] = $user;
