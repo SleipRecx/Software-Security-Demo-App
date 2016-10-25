@@ -31,14 +31,9 @@ class RegistrationFormValidation
             $this->validationErrors[] = 'Password cannot be empty';
         }
 
-        if (strlen($password) < 8 ){
-          echo strlen($password);
-          $this->validationErrors[] = "Password must be atleast 8 characters";
-        }
-
-        if (!preg_match('/[A-Z]+[a-z]+[0-9]+/', $password))
+        if (!preg_match('/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/', $password))
         {
-          $this->validationErrors[] = "Password must contain numbers, and capital letters";
+          $this->validationErrors[] = "Password must contain numbers, capital letters, and be atleast 8 characters long";
         }
 
         if(empty($first_name)) {
