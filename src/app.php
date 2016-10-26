@@ -82,4 +82,7 @@ $app->get('/patents/:patentId/delete', $ns . 'PatentsController:destroy');
 // Admin restricted area
 $app->get('/admin', $ns . 'AdminController:index')->name('admin');
 
+$app->get('/search', $ns . 'PatentsController:search')->name('searchpatents');
+$app->post('/search', $ns . 'PatentsController:searching');
+
 return $app;

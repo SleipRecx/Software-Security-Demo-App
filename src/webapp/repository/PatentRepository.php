@@ -67,6 +67,28 @@ class PatentRepository
         );
     }
 
+    public function searchFor($searchString){
+
+      if($searchString == "" ){
+        return false;
+      }
+        $string =  '%' . $searchString . '%';
+        $stmt = $this->pdo->prepare("SELECT * FROM patent WHERE  title LIKE :string OR company LIKE :string");
+        $stmt->bindParam(':string', $string);
+        $stmt->execute();
+        $fetch = $stmt->fetchAll();
+
+        if(count($fetch) == 0) {
+            return false;
+        }
+
+        return new PatentCollection(
+            array_map([$this, 'makePatentFromRow'], $fetch)
+        );
+    }
+
+
+
     public function deleteByPatentid($patentId)
     {
        $stmt = $this->pdo->prepare("DELETE FROM patent WHERE patentid=:id");

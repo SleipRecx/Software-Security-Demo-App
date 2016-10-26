@@ -48,11 +48,6 @@ class UsersController extends Controller
         $this->app->redirect('/');
     }
 
-    //xss mitigation functions
-  public function xssafe($data,$encoding='UTF-8'){
-   return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
- }
-
     public function create()
     {
         $request  = $this->app->request;

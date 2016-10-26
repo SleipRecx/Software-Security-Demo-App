@@ -51,6 +51,28 @@ class PatentsController extends Controller
 
     }
 
+    public function search(){
+      $this->render('patents/search.twig');
+    }
+
+    public function searching(){
+      $request  = $this->app->request;
+      $string   = $this->xssafe($request->post('search'));
+      $patents = $this->patentRepository->searchFor($string);
+
+      if($patents != null)
+      {
+          $patents->sortByDate();
+      }
+      $users = $this->userRepository->all();
+
+      $this->render('patents/search.twig', [
+        'showtable' => true,
+        'patent' => $patents,
+        'users' => $users]);
+    }
+
+
     public function newpatent()
     {
 

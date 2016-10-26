@@ -1,0 +1,54 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+
+
+
+    <div class="search">
+      <center>
+        <form action="#" method="post" enctype="multipart/form-data" class="ui form">
+          <br/>
+          <input type='text' placeholder="Search by title or company name..." name="search" style="width: 60%">
+          <input type="submit" name="submit" value="Search" class="positive ui button">
+        </form>
+      </center>
+    </div>
+
+    {% if showtable %}
+      <br/>
+        <table class="ui single line table">
+            <thead>
+                <tr>
+            		<th> Title </th>
+            		<th> Company/User </th>
+            		<th> Description </th>
+            	</tr>
+            </thead>
+
+            <tbody>
+                {% for patents in patent %}
+            	<tr>
+            		<td><a href="/patents/{{patents.patentId}}">{{ patents.title }}</a></td>
+                    {% if patents.company == user.username %}
+                        <td><a href="/users/{{ patents.company|raw }}">{{ patents.company|raw }}</a></td>
+                    {% else %}
+            		<td> {{ patents.company|raw }} </td>
+                    {% endif %}
+            		<td> {{ patents.description|raw }}</td>
+            	</tr>
+            	{% endfor %}
+
+                {% if patent is empty %}
+                <tr style="text-align: center">
+                  <td colspan="3">There are no such patents!</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+
+    {% endif %}
+
+
+
+{% endblock %}
