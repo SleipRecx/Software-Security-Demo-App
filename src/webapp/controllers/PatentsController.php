@@ -135,7 +135,7 @@ class PatentsController extends Controller
             $filename = $_FILES['uploaded']['name'];
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
             if(!in_array($ext,$allowed) ) {
-              $this->app->flash('info', "Wrong filetype. (Only gif, png and jpg allowed).");
+              $this->app->flash('error', "Wrong filetype. (Only gif, png and jpg allowed).");
               $this->app->redirect('/patents/new');
             }
             else {
