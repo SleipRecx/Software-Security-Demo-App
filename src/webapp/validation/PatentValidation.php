@@ -24,21 +24,35 @@ class PatentValidation {
 
     public function validate($title, $company, $description)
     {
-        if ($title == null) {
-            $this->validationErrors[] = "Title needed";
+      if ($this->stringTooLong($title, $company, $description)){
+        $this->validationErrors[] = 'Input field can not have more than 50 characters';
+      }
 
-        }
-        if ($company == null) {
+      else{
+          if ($title == null) {
+              $this->validationErrors[] = "Title needed";
 
-            $this->validationErrors[] = "Company/User needed";
-        }
+          }
+          if ($company == null) {
 
-        if ($description == null) {
+              $this->validationErrors[] = "Company/User needed";
+          }
 
-            $this->validationErrors[] = "Description needed";
-        }
+          if ($description == null) {
+
+              $this->validationErrors[] = "Description needed";
+          }
+      }
 
         return $this->validationErrors;
+    }
+
+    public function stringTooLong($input_field1, $input_field2, $input_field3){
+      $length1 = strlen($input_field1);
+      $length2 = strlen($input_field2);
+      $length3 = strlen($input_field3);
+
+      return $length1 > 50 || $length2 > 50 || $length3 > 50;
     }
 
 
