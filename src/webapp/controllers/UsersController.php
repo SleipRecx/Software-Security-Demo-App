@@ -58,18 +58,18 @@ class UsersController extends Controller
         $request  = $this->app->request;
         $username = $this->xssafe($request->post('user'));
         $password = $this->xssafe($request->post('pass'));
-        $firstName = $this->xssafe($request->post('first_name'));
-        $lastName = $this->xssafe($request->post('last_name'));
+        $first_name = $this->xssafe($request->post('first_name'));
+        $last_name = $this->xssafe($request->post('last_name'));
         $phone = $this->xssafe($request->post('phone'));
         $company = $this->xssafe($request->post('company'));
 
 
-        $validation = new RegistrationFormValidation($username, $password, $firstName, $lastName, $phone, $company);
+        $validation = new RegistrationFormValidation($username, $password, $first_name, $last_name, $phone, $company);
 
         if ($validation->isGoodToGo()) {
             $password = $password;
             $password = $this->hash->make($password);
-            $user = new User($username, $password, $firstName, $lastName, $phone, $company);
+            $user = new User($username, $password, $first_name, $last_name, $phone, $company);
             $this->userRepository->save($user);
 
             $this->app->flash('info', 'Thanks for creating a user. Now log in.');
@@ -97,20 +97,20 @@ class UsersController extends Controller
 
         $request  = $this->app->request;
         $email  = $this->xssafe($request->post('email'));
-        $firstName = $this->xssafe($request->post('first_name'));
-        $lastName = $this->xssafe($request->post('last_name'));
+        $first_name = $this->xssafe($request->post('first_name'));
+        $last_name = $this->xssafe($request->post('last_name'));
         $phone = $this->xssafe($request->post('phone'));
         $company = $this->xssafe($request->post('company'));
 
 
-        $validation = new EditUserFormValidation($email, $phone, $company);
+        $validation = new EditUserFormValidation($first_name, $last_name, $email, $phone, $company);
 
         if ($validation->isGoodToGo()) {
+            $user->setFirstName($first_name);
+            $user->setLastName($last_name);
             $user->setEmail(new Email($email));
-            $user->setCompany($company);
             $user->setPhone(new Phone($phone));
-            $user->setFirstName($firstName);
-            $user->setLastName($lastName);
+            $user->setCompany($company);
             $this->userRepository->save($user);
 
             $this->app->flashNow('info', 'Your profile was successfully saved.');
@@ -119,6 +119,7 @@ class UsersController extends Controller
 
         $this->app->flashNow('error', join('<br>', $validation->getValidationErrors()));
         $this->render('users/edit.twig', ['user' => $user]);
+
     }
 
     public function destroy($username)
