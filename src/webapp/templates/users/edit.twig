@@ -3,18 +3,6 @@
 {% block content %}
     <h2>Edit profile</h2>
 
-    {% if flash.error %}
-        <div class="ui error message">
-            {{ flash.error|raw }}
-        </div>
-    {% endif %}
-
-    {% if flash.info %}
-        <div class="ui warning message">
-            {{ flash.info|raw }}
-        </div>
-    {% endif %}
-
     <form action="" method="post" class="ui form">
         <div class="ui error message">
             {{ flash.error }}
