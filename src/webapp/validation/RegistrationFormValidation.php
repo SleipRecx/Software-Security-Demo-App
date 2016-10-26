@@ -28,7 +28,7 @@ class RegistrationFormValidation
     private function validate($username, $password, $first_name, $last_name, $phone, $company)
     {
       if ($this->stringTooLong($username, $password, $first_name, $last_name, $phone, $company)){
-        $this->validationErrors[] = 'Input field can not have more than 10 characters';
+        $this->validationErrors[] = 'Input field can not have more than 50 characters';
       }
 
       else{
@@ -77,6 +77,6 @@ class RegistrationFormValidation
       $length5 = strlen($input_field5);
       $length6 = strlen($input_field6);
 
-      return $length1 > 10 || $length2 > 10 || $length3 > 10 || $length4 > 10 || $length5 > 10 || $length6 > 10;
+      return $length1 > 50 || $length2 > 50 || $length3 > 50 || $length4 > 50 || $length5 > 50 || $length6 > 50;
     }
 }
