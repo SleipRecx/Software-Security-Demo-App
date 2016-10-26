@@ -103,7 +103,7 @@ class PatentsController extends Controller
 
 
 
-            $validation = new PatentValidation($title, $description);
+            $validation = new PatentValidation($title, $description, $company);
             if ($validation->isGoodToGo()) {
                 $patent = new Patent($company, $title, $description, $date, $file);
                 $patent->setCompany($company);
