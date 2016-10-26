@@ -8,8 +8,8 @@ class PatentValidation {
 
     private $validationErrors = [];
 
-    public function __construct($company, $title) {
-        return $this->validate($company, $title);
+    public function __construct($title, $company, $description) {
+        return $this->validate($title, $company, $description);
     }
 
     public function isGoodToGo()
@@ -22,14 +22,20 @@ class PatentValidation {
     return $this->validationErrors;
     }
 
-    public function validate($company, $title)
+    public function validate($title, $company, $description)
     {
-        if ($company == null) {
-            $this->validationErrors[] = "Company/User needed";
-
-        }
         if ($title == null) {
             $this->validationErrors[] = "Title needed";
+
+        }
+        if ($company == null) {
+
+            $this->validationErrors[] = "Company/User needed";
+        }
+
+        if ($description == null) {
+
+            $this->validationErrors[] = "Description needed";
         }
 
         return $this->validationErrors;
