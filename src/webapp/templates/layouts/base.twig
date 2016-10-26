@@ -15,6 +15,7 @@
                 <div class="ui secondary vertical pointing fluid menu">
                     {% if isLoggedIn %}
                     <a href="{{ urlFor('showpatents') }}" class="item">Show patents</a>
+                    <a href="{{ urlFor('searchpatents') }}" class="item">Search patent</a>
                     <a href="{{ urlFor('editprofile') }}" class="item">Edit profile</a>
                     <a href="{{ urlFor('registerpatent') }}" class="item">Register patent</a>
                     {% endif %}
