@@ -69,7 +69,9 @@ class PatentRepository
 
     public function searchFor($searchString){
 
-      if($searchString == "" ){
+      $length = strlen($searchString);
+
+      if($searchString == "" || $length > 50){
         return false;
       }
         $string =  '%' . $searchString . '%';
