@@ -17,11 +17,11 @@
         	<tr>
         		<td><a href="/patents/{{patents.patentId}}">{{ patents.title }}</a></td>
                 {% if patents.company == user.username %}
-                    <td><a href="/users/{{ patents.company|raw }}">{{ patents.company|raw }}</a></td>
+                    <td><a href="/users/{{ patents.company }}">{{ patents.company }}</a></td>
                 {% else %}
-        		<td> {{ patents.company|raw }} </td>
+        		<td> {{ patents.company }} </td>
                 {% endif %}
-        		<td> {{ patents.description|raw }}</td>
+        		<td> {{ patents.description }}</td>
         	</tr>
         	{% endfor %}
 

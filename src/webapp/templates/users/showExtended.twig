@@ -11,7 +11,7 @@
 
     {% if flash.info %}
         <div class="ui warning message">
-            {{ flash.info|raw }}
+            {{ flash.info }}
         </div>
     {% endif %}
 
@@ -19,12 +19,12 @@
         <table class="ui definition table">
             <tr>
                 <td>Id</td>
-                <td>{{ user.userid|raw }}</td>
+                <td>{{ user.userid }}</td>
             </tr>
 
             <tr>
                 <td>Username</td>
-                <td>{{ user.username|raw }}</td>
+                <td>{{ user.username}}</td>
             </tr>
 
             <tr>
@@ -39,12 +39,12 @@
 
             <tr>
                 <td>Company</td>
-                <td>{{ user.company|raw }}</td>
+                <td>{{ user.company }}</td>
             </tr>
 
             <tr>
                 <td>Phone</td>
-                <td>{{ user.phone|raw }}</td>
+                <td>{{ user.phone }}</td>
             </tr>
 
             <tr>
@@ -59,7 +59,7 @@
         </table>
     {% else %}
         <div class="ui error message">
-            Could not find a user with username "{{ username|raw }}".
+            Could not find a user with username "{{ username }}".
         </div>
     {% endif %}
 {% endblock %}
