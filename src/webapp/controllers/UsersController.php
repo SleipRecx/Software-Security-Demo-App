@@ -19,6 +19,12 @@ class UsersController extends Controller
     public function show($username)
     {
       $user = $this->userRepository->findByUser($username);
+
+      if(!$user){
+        $this->app->flash("info", "Invalid username!");
+        $this->app->redirect("/");
+      }
+
         if ($this->auth->guest()) {
             $this->app->flash("info", "You must be logged in to do that");
             $this->app->redirect("/login");
