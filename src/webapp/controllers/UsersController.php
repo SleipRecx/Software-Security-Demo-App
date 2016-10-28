@@ -21,12 +21,12 @@ class UsersController extends Controller
       $user = $this->userRepository->findByUser($username);
 
       if(!$user){
-        $this->app->flash("info", "Invalid username!");
+        $this->app->flash("error", "Invalid username!");
         $this->app->redirect("/");
       }
 
         if ($this->auth->guest()) {
-            $this->app->flash("info", "You must be logged in to do that");
+            $this->app->flash("info", "You must be logged in to view this page.");
             $this->app->redirect("/login");
 
         } else if ($this->auth->isAdmin() || $user->getUsername() === $this->auth->getUsername()) {
@@ -50,7 +50,7 @@ class UsersController extends Controller
         }
 
         $username = $this->auth->user()->getUserName();
-        $this->app->flash('info', 'You are already logged in as ' . $username);
+        $this->app->flash('error', 'You are already logged in as ' . $username);
         $this->app->redirect('/');
     }
 
@@ -73,7 +73,7 @@ class UsersController extends Controller
             $user = new User($username, $password, $first_name, $last_name, $phone, $company);
             $this->userRepository->save($user);
 
-            $this->app->flash('info', 'Thanks for creating a user. Now log in.');
+            $this->app->flash('info', 'Thanks for creating a user. Now log in!');
             return $this->app->redirect('/login');
         }
 
@@ -134,7 +134,7 @@ class UsersController extends Controller
             return;
         }
 
-        $this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
+        $this->app->flash('error', "Unable to delete user '$username'.");
         $this->app->redirect('/');
     }
 
@@ -149,7 +149,7 @@ class UsersController extends Controller
     public function makeSureUserIsAdmin()
     {
         if ($this->auth->isAdmin()) {
-            $this->app->flash('info', "You must be administrator to view the admin page.");
+            $this->app->flash('info', "You must be an administrator to view this page.");
             $this->app->redirect('/');
         }
     }

@@ -32,7 +32,7 @@ class PatentsController extends Controller
     {
 
       if ($this->auth->guest()){
-        $this->app->flash('error', "You need to be logged in to view more information.");
+        $this->app->flash('info', "You need to be logged in to view more information.");
         $this->app->redirect('/patents');
         return;
       }
@@ -91,7 +91,7 @@ class PatentsController extends Controller
             $this->render('patents/new.twig', ['username' => $username]);
         } else {
 
-            $this->app->flash('error', "You need to be logged in to register a patent");
+            $this->app->flash('info', "You need to be logged in to register a patent");
             $this->app->redirect("/");
         }
 
@@ -100,7 +100,7 @@ class PatentsController extends Controller
     public function create()
     {
         if ($this->auth->guest()) {
-            $this->app->flash("info", "You must be logged on to register a patent");
+            $this->app->flash("info", "You need to be logged in to register a patent");
             $this->app->redirect("/login");
         } else {
             $request     = $this->app->request;
@@ -164,7 +164,7 @@ class PatentsController extends Controller
     public function destroy($patentId)
     {
         if (!$this->auth->isAdmin()) {
-              $this->app->flash('info', "You must be administrator to access this page.");
+              $this->app->flash('info', "You must be an administrator to view this page.");
               $this->app->redirect('/patents');
               return;
             }
@@ -176,7 +176,7 @@ class PatentsController extends Controller
               return;
             }
 
-        $this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
+        $this->app->flash('error', "Unable to delete user '$username'.");
         $this->app->redirect('/admin');
     }
 }

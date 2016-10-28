@@ -16,7 +16,7 @@ class SessionsController extends Controller
     {
         if ($this->auth->check()) {
             $username = $this->auth->user()->getUsername();
-            $this->app->flash('info', 'You are already logged in as ' . $username);
+            $this->app->flash('error', 'You are already logged in as ' . $username);
             $this->app->redirect('/');
             return;
         }
