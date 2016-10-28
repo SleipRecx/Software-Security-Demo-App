@@ -17,6 +17,12 @@
                 </div>
             {% endif %}
 
+            {% if flash.error %}
+                <div class="ui error message">
+                    {{ flash.error }}
+                </div>
+            {% endif %}
+
             {% block content %}{% endblock %}
         </div>
 
