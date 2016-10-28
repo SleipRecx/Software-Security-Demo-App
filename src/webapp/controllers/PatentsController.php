@@ -58,6 +58,10 @@ class PatentsController extends Controller
     }
 
     public function search(){
+      if ($this->auth->guest()){
+        $this->app->flash('info', "You must be logged in to view this page.");
+        $this->app->redirect('/');
+      }
       $this->render('patents/search.twig');
     }
 
