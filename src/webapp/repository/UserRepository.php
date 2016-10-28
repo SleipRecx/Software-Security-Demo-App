@@ -73,8 +73,13 @@ class UserRepository
         if ($row === false) {
             return false;
         }
+        try {
+          return $this->makeUserFromRow($row);
 
-        return $this->makeUserFromRow($row);
+        } catch (Exception $e) {
+            return false;
+        }
+
     }
 
     public function deleteByUsername($username)
