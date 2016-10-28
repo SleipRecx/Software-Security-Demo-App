@@ -31,6 +31,12 @@ class PatentsController extends Controller
     public function show($patentId)
     {
 
+      if ($this->auth->guest()){
+        $this->app->flash('error', "You need to be logged in to view more information.");
+        $this->app->redirect('/patents');
+        return;
+      }
+
         $patent = $this->patentRepository->find($patentId);
         $username = $_SESSION['user'];
         $user = $this->userRepository->findByUser($username);
