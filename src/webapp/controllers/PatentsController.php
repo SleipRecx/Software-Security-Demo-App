@@ -112,7 +112,6 @@ class PatentsController extends Controller
             $description = $this->xssafe($request->post('description'));
             $company     = $this->xssafe($request->post('company'));
             $date        = date("dmY");
-            //TODO make this upload safe
             $file = $this -> startUpload();
 
 
