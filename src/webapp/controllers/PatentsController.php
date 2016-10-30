@@ -66,6 +66,10 @@ class PatentsController extends Controller
     }
 
     public function searching(){
+      if ($this->auth->guest()){
+        $this->app->flash('info', "You must be logged in to view this page.");
+        $this->app->redirect('/');
+      }
       $request  = $this->app->request;
       $string   = $this->xssafe($request->post('search'));
       $patents = $this->patentRepository->searchFor($string);
