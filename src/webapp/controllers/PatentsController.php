@@ -141,12 +141,16 @@ class PatentsController extends Controller
             }
 
             //check mime type
-            $allowed =  array('gif','png' ,'jpg');
+            $allowed =  array('png' ,'jpg');
             $filename = $_FILES['uploaded']['name'];
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
             if(!in_array($ext,$allowed) ) {
-              $this->app->flash('error', "Wrong filetype. (Only gif, png and jpg allowed).");
+              $this->app->flash('error', "Wrong filetype. (Only png and jpg allowed).");
               $this->app->redirect('/patents/new');
+            }
+            //check that filename isnt too long
+            else if (strlen($_FILES['uploaded']['name']) > 32 ) {
+              throw new RuntimeException("Filename too long.");
             }
             else {
 
