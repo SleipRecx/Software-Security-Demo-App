@@ -50,10 +50,10 @@ class SessionsController extends Controller
         $this->render('sessions/new.twig', []);
     }
 
-    public function destroy()
-    {
+    public function destroy(){
         $this->auth->logout();
         $this->app->redirect('/');
-
     }
+
+
 }
