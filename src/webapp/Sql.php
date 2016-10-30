@@ -35,26 +35,17 @@ class Sql
         $hash2 = Hash::make('jdbTu3afvf8U');
         $hash3 = Hash::make('7pWUGwPyS8YF');
 
-        /*
-        * TODO delete following line
-        */
-        $hash4 = Hash::make('markus');
+
 
         $q1 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('systemmanager', '$hash1', 1, 'Approv', 'Patents', '53290672', 'Patentsy AS', 'systemmanager@patentsy.com')";
         $q2 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('ittechnican', '$hash2', 1, 'Robert', 'Green', '92300847', 'Patentsy AS', 'ittechnican@patentsy.com')";
         $q3 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('ceobjarnitorgmund', '$hash3', 1, 'Bjarni', 'Torgmund', '32187625', 'Patentsy AS', 'ceobjarnitorgmund@patentsy.com')";
 
-        /*
-        * TODO delete following line
-        */
-
-        $q4 = "INSERT INTO users(user, pass, isadmin, first_name, last_name, phone, company, email) VALUES ('markus', '$hash4', 1, 'Bjarni', 'Torgmund', '32187625', 'Patentsy AS', 'markus@patentsy.com')";
-
-
+      
         self::$pdo->exec($q1);
         self::$pdo->exec($q2);
         self::$pdo->exec($q3);
-        self::$pdo->exec($q4);
+
 
 
         print "[tdt4237] Done inserting dummy users.".PHP_EOL;
