@@ -18,8 +18,8 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.userid }}</td>
-                    <td><a href="/users/{{ user.username }}">{{ user.username }}</a></td>
-                    <td><a href="/users/{{ user.username }}/delete">Delete user</a></td>
+                    <td><a href="/users/{{ user.username|escape }}">{{ user.username|escape }}</a></td>
+                    <td><a href="/users/{{ user.username|escape }}/delete">Delete user</a></td>
                 </tr>
             {% endfor %}
 
@@ -44,8 +44,8 @@
         <tbody>
             {% for patents in patent %}
                 <tr>
-                    <td><a href="/patents/{{ patents.patentId }}">{{ patents.title }}</a></td>
-                    <td><a href="/patents/{{ patents.patentId }}/delete">Delete patent</a></td>
+                    <td><a href="/patents/{{ patents.patentId|escape }}">{{ patents.title|escape }}</a></td>
+                    <td><a href="/patents/{{ patents.patentId|escape }}/delete">Delete patent</a></td>
                 </tr>
             {% endfor %}
 

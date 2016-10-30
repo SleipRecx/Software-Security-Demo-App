@@ -31,7 +31,7 @@
                         {% endif %}
                     </div>
                     <div class="description">
-                        <a href="/user/{{ user.email }}">{{ user.email}}</a>
+                        <a href="/user/{{ user.email|escape }}">{{ user.email |escape}}</a>
                     </div>
                 </div>
             </div>
